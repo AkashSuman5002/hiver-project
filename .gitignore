@@ -1,0 +1,11 @@
+.env
+.env.*
+!.env.example
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.history/
+data/golden_set.csv
+data/evaluation_results.csv
