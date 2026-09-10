@@ -27,7 +27,7 @@ def parse_bool(value):
 class SupportAgent:
 	"""Classify a message and draft a cautious, AppleSupport-style reply."""
 
-	def __init__(self, client=None, model=None, request_delay=3.0):
+	def __init__(self, client=None, model=None, request_delay=10.0):
 		load_dotenv()
 		provider = os.getenv("LLM_PROVIDER", "openai").lower()
 		if client:
@@ -52,7 +52,7 @@ class SupportAgent:
 			self.model = model or os.getenv("OPENAI_MODEL", "gpt-4o-mini")
 		self.request_delay = request_delay
 
-	def _complete_json(self, messages, retries=5):
+	def _complete_json(self, messages, retries=8):
 		for attempt in range(retries):
 			try:
 				response = self.client.chat.completions.create(
@@ -63,10 +63,12 @@ class SupportAgent:
 				)
 				time.sleep(self.request_delay)
 				return json.loads(response.choices[0].message.content)
-			except Exception:
+			except Exception as e:
+				wait = min(2 ** (attempt + 2), 60)
+				print(f"  Agent retry {attempt+1}/{retries}, waiting {wait}s: {type(e).__name__}")
+				time.sleep(wait)
 				if attempt == retries - 1:
 					raise
-				time.sleep(min(2**attempt, 20))
 
 	def classify(self, customer_message):
 		result = self._complete_json([

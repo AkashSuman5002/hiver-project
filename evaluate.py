@@ -16,7 +16,7 @@ Historical replies are evidence of style, not a requirement to copy their wordin
 Return only JSON: helpfulness, relevance, empathy_tone, rationale."""
 
 
-def judge_reply(client, model, customer_message, historical_reply, candidate_reply, retries=5):
+def judge_reply(client, model, customer_message, historical_reply, candidate_reply, retries=8):
 	load_dotenv()
 	for attempt in range(retries):
 		try:
@@ -36,12 +36,14 @@ def judge_reply(client, model, customer_message, historical_reply, candidate_rep
 			result = json.loads(response.choices[0].message.content)
 			scores = {key: max(1, min(5, int(result[key]))) for key in ("helpfulness", "relevance", "empathy_tone")}
 			scores["rationale"] = str(result.get("rationale", ""))
-			time.sleep(3.0)
+			time.sleep(10.0)
 			return scores
-		except Exception:
+		except Exception as e:
+			wait = min(2 ** (attempt + 2), 60)
+			print(f"  Judge retry {attempt+1}/{retries}, waiting {wait}s: {type(e).__name__}")
+			time.sleep(wait)
 			if attempt == retries - 1:
 				raise
-			time.sleep(min(2**attempt, 20))
 
 
 def summarize(scores):
