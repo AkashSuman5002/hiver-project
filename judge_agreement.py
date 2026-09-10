@@ -272,6 +272,8 @@ def main():
     for key, val in sorted(metrics.items()):
         if "kappa" in key:
             print(f"  {key:>30}: {val:.3f}")
+        elif "mae" in key:
+            print(f"  {key:>30}: {val:.3f} points")
         else:
             print(f"  {key:>30}: {val:.1%}")
 

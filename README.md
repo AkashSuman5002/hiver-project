@@ -43,7 +43,8 @@ python baselines.py
 │   ├── applesupport_conversations.csv   # Raw dataset (2,772 conversations)
 │   ├── golden_set_unlabeled.csv         # 200 unlabeled rows
 │   ├── golden_set.csv                   # 200 hand-labeled rows
-│   └── evaluation_results.csv           # Agent evaluation output
+│   ├── evaluation_results.csv           # Agent evaluation output
+│   └── judge_calibration.csv            # Gemini versus human judge scores
 └── .env                      # API keys (not committed)
 ```
 
@@ -56,6 +57,8 @@ python baselines.py
 | LLM agent | Not comparable* | Not comparable* |
 
 *The saved `evaluation_results.csv` contains 90 judged rows with mean reply scores of helpfulness 3.48, relevance 4.14, and empathy/tone 4.51 (overall 4.04/5). It does not contain intent ground-truth predictions for all 200 rows, so an LLM intent-accuracy number is not reported.
+
+The 20-example Gemini judge calibration is saved in `data/judge_calibration.csv`: overall within-one-point agreement was 0.60, mean absolute error was 1.32 points, and Cohen's kappa was 0.002. This weak agreement is a limitation, not evidence that the judge is reliable.
 
 ## Files to read
 

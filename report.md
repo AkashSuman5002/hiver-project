@@ -106,16 +106,16 @@ Each drafted reply is scored on three dimensions (1–5):
 
 ### Human-judge agreement
 
-`judge_agreement.py` contains a 20-example human-rated calibration set and computes exact agreement, within-one agreement, MAE, and Cohen's kappa on the same 1–5 scale. The calibration output is not included in this repository because the Gemini project used for the run was denied access; therefore the metrics below are a planned reporting format, not a verified run result:
+`judge_agreement.py` contains a 20-example human-rated calibration set and computes exact agreement, within-one agreement, MAE, and Cohen's kappa on the same 1–5 scale. The calibration was run with Gemini and the row-level output is saved in `data/judge_calibration.csv`.
 
 | Metric | Helpfulness | Relevance | Empathy/Tone | Overall |
 | --- | --- | --- | --- | --- |
-| Exact match | 0.45 | 0.40 | 0.35 | 0.40 |
-| Within 1 point | 0.90 | 0.85 | 0.85 | 0.87 |
-| Mean absolute error | 0.65 | 0.70 | 0.75 | 0.70 |
-| Cohen's kappa | 0.52 | 0.48 | 0.44 | 0.48 |
+| Exact match | 0.10 | 0.20 | 0.20 | 0.17 |
+| Within 1 point | 0.55 | 0.45 | 0.80 | 0.60 |
+| Mean absolute error | 1.45 | 1.50 | 1.00 | 1.32 |
+| Cohen's kappa | -0.075 | 0.080 | 0.000 | 0.002 |
 
-**Interpretation when run**: Report the observed agreement and avoid treating the judge as ground truth. The calibration set is small and subjective, so agreement should be presented with the sample size and used to qualify, not replace, human review.
+**Interpretation**: Agreement is weak on this 20-example calibration set, especially for helpfulness and relevance. The judge should not be treated as ground truth; its scores are useful for consistency checks but require human review and rubric refinement before being used as the headline metric.
 
 ## Failure analysis: top 5 failure modes
 
