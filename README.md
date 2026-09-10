@@ -51,11 +51,11 @@ python baselines.py
 
 | System | Intent Accuracy | Escalation Accuracy |
 | --- | --- | --- |
-| Trivial (majority class) | 0.570 | 0.755 |
-| Keyword/rule | 0.770 | 0.810 |
-| LLM agent | ~0.85* | ~0.88* |
+| Trivial (majority class) | 0.575 | 0.790 |
+| Keyword/rule | 0.740 | 0.805 |
+| LLM agent | Not comparable* | Not comparable* |
 
-*LLM agent scores estimated from 20-row smoke test.
+*The saved `evaluation_results.csv` contains 90 judged rows with mean reply scores of helpfulness 3.48, relevance 4.14, and empathy/tone 4.51 (overall 4.04/5). It does not contain intent ground-truth predictions for all 200 rows, so an LLM intent-accuracy number is not reported.
 
 ## Files to read
 

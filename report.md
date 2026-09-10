@@ -68,11 +68,11 @@ Three systems were evaluated on the 200-row golden set:
 
 | System | Intent Accuracy | Escalation Accuracy |
 | --- | --- | --- |
-| **Trivial baseline** (always predict `software_bug`) | 0.570 | 0.755 |
-| **Keyword/rule baseline** (keyword matching) | 0.770 | 0.810 |
-| **LLM agent** (SupportAgent with GPT-4o-mini) | ~0.85* | ~0.88* |
+| **Trivial baseline** (majority class) | 0.575 | 0.790 |
+| **Keyword/rule baseline** (keyword matching) | 0.740 | 0.805 |
+| **LLM agent** | Not reported* | Not reported* |
 
-*LLM agent scores are estimated from a 20-row smoke test due to API budget constraints. The full 200-row evaluation requires running `python main.py` with a valid API key.
+*The saved evaluation file contains 90 judged rows. Mean reply scores are helpfulness 3.48, relevance 4.14, empathy/tone 4.51, and overall 4.04/5. Intent and escalation accuracy are not reported for the agent because the saved evaluation does not include independently verified predictions for all 200 rows.
 
 ### Trivial baseline (majority class)
 
@@ -106,7 +106,7 @@ Each drafted reply is scored on three dimensions (1–5):
 
 ### Human-judge agreement
 
-A 20-example calibration set was hand-rated on the same 1–5 scale. Agreement metrics:
+`judge_agreement.py` contains a 20-example human-rated calibration set and computes exact agreement, within-one agreement, MAE, and Cohen's kappa on the same 1–5 scale. The calibration output is not included in this repository because the Gemini project used for the run was denied access; therefore the metrics below are a planned reporting format, not a verified run result:
 
 | Metric | Helpfulness | Relevance | Empathy/Tone | Overall |
 | --- | --- | --- | --- | --- |
@@ -115,7 +115,7 @@ A 20-example calibration set was hand-rated on the same 1–5 scale. Agreement m
 | Mean absolute error | 0.65 | 0.70 | 0.75 | 0.70 |
 | Cohen's kappa | 0.52 | 0.48 | 0.44 | 0.48 |
 
-**Interpretation**: The LLM judge shows moderate-to-substantial agreement with the human rater. Within-1-point agreement is strong (87%), meaning the judge rarely makes large scoring errors. The moderate kappa (0.48) reflects legitimate disagreement on borderline cases, not systematic bias. This is typical for subjective text quality judgments.
+**Interpretation when run**: Report the observed agreement and avoid treating the judge as ground truth. The calibration set is small and subjective, so agreement should be presented with the sample size and used to qualify, not replace, human review.
 
 ## Failure analysis: top 5 failure modes
 
